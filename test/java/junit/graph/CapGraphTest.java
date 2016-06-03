@@ -30,7 +30,7 @@ public class CapGraphTest {
 	}
 	
 	@Test
-	public void testaddVertex_FromGraphLoader() {
+	public void testAddVertex_FromGraphLoader() {
 		myGraph = test.exportGraph();
 		assertTrue(myGraph.containsKey(2) && myGraph.containsKey(3) &&
 				myGraph.containsKey(4) && myGraph.containsKey(1)  );
@@ -67,4 +67,18 @@ public class CapGraphTest {
 	}
 
 
+	@Test
+	public void testRemoveVertex() {
+		test.removeVertex(4);
+		myGraph = test.exportGraph();
+		assertFalse(myGraph.containsKey(4));
+	}
+	
+	@Test
+	public void testRemoveEdge() {
+		test.removeEdge(4, 1);
+		myGraph = test.exportGraph();
+		assertFalse(myGraph.get(4).contains(1));
+	}
+	
 }

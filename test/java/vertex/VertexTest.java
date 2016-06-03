@@ -1,4 +1,4 @@
-package junit.graph;
+package vertex;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import graph.Vertex;
+import graph.particles.Vertex;
 
 @RunWith(Parameterized.class)
 public class VertexTest {
@@ -67,6 +67,7 @@ public class VertexTest {
 		vertex.setPosition(positionA+1);
 		assertEquals(positionA + 1, vertex.getPosition());
 	}
+	
 
 	@Test
 	public void testIsPosition() {
@@ -85,4 +86,7 @@ public class VertexTest {
 		vertex.setConection(positionB);
 		assertTrue(temp.contains(positionB));
 	}
+	
+	
 }
+

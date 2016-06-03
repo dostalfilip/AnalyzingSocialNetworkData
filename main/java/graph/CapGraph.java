@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import graph.particles.Vertex;
+
 /**
  * @author Filip Dostal
  * 
@@ -24,52 +26,54 @@ public class CapGraph implements Graph {
 	public CapGraph() {
 		myArray = new ArrayList<Vertex>();
 	}
-	
-	
-	
 
-	/* (non-Javadoc)
-	 * @see graph.Graph#addVertex(int)
-	 */
 	public void addVertex(int num) {
 		myArray.add(new Vertex(num));
 	}
 
-	/* (non-Javadoc)
-	 * @see graph.Graph#addEdge(int, int)
-	 */
-	public void addEdge(int from, int to) {
-		if(!myArray.contains(from)){
-			myArray.add(new Vertex(from, to));
+	public void addEdge(int from, int to) {	
+		if(!myArray.contains(new Vertex(from)) || myArray.isEmpty()){
+			myArray.add(new Vertex(from));
 		}
-		myArray.get(from).setConection(to);
+		Vertex tempVertex = myArray.get(from);
+		tempVertex.setConection(to);
+		myArray.add(from, tempVertex);
+	}
+	
+	public void removeVertex(int num_vertex){
+		//TODO
+	}
+	
+	public void removeEdge(int num_vertex,int num_edge){
+		//TODO
+	}
+	
+
+	public CapGraph getEgonet(int center) {
+		CapGraph output = new CapGraph();
+
+		//TODO
+		
+		return output;
 	}
 
-	/* (non-Javadoc)
-	 * @see graph.Graph#getEgonet(int)
-	 */
-	public Graph getEgonet(int center) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see graph.Graph#getSCCs()
-	 */
 	public List<Graph> getSCCs() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see graph.Graph#exportGraph()
-	 */
+
 	public HashMap<Integer, HashSet<Integer>> exportGraph(){
 		HashMap<Integer, HashSet<Integer>> myGraph = new HashMap<Integer, HashSet<Integer>>();
 		for(Vertex v : myArray){
-			myGraph.put(v.getPosition(), v.getConections());
+			HashSet<Integer> tempSet = v.getConections();
+			myGraph.put(v.getPosition(), tempSet);
 		}
 		
 		return myGraph;
+	}
+	
+	public boolean isEmpty(){
+		return myArray.isEmpty();
 	}
 }
