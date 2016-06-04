@@ -8,8 +8,8 @@ import org.junit.runners.Suite.SuiteClasses;
 import junit.graph.CapGraphTest;
 import junit.graph.CapGraphTestAdvanced;
 import junit.graph.EdgeTest;
-import vertex.VertexExceptionTest;
-import vertex.VertexTest;
+import junit.vertex.VertexExceptionTest;
+import junit.vertex.VertexTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({CapGraphTest.class, CapGraphTestAdvanced.class,
