@@ -68,19 +68,5 @@ public class CapGraphTest {
 		assertTrue(myGraph.get(0).contains(5));
 	}
 
-
-	@Test
-	public void testRemoveVertex() {
-		test.removeVertex(4);
-		myGraph = test.exportGraph();
-		assertFalse(myGraph.containsKey(4));
-	}
-	
-	@Test
-	public void testRemoveEdge() {
-		test.removeEdge(4, 1);
-		myGraph = test.exportGraph();
-		assertFalse(myGraph.get(4).contains(1));
-	}
 	
 }

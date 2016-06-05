@@ -6,13 +6,7 @@ import java.util.HashSet;
 import graph.CapGraph;
 import util.GraphLoader;
 
-/**
- * 
- * @author Filip Dostal
- *
- *	Tester setup class
- */
-public class TesterSetup {
+public class TesterNewEdgeStructure {
 
 	public static void main(String[] args) {
 		CapGraph test = new CapGraph();
@@ -31,26 +25,17 @@ public class TesterSetup {
 		testHash = test.exportGraph();
 
 		System.out.println(test.toString());
+
 		
-		
-		System.out.println("Compare with HashMap");
-		for(int n : testHash.keySet()){
-			System.out.print("Center Vertex v bodu : " + n + " Poèet Conectu: " + testHash.get(n).size() + "\n");
-			for(int v : testHash.get(n)){
-				System.out.print(v + ", ");
+		System.out.println("Test export");
+		for(int i:testHash.keySet()){
+			System.out.print("\n("+ i + "):");
+			for(int n : testHash.get(i)){
+				System.out.print(" "+n);
 			}
-			System.out.println(".");
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 
 	}
+
 }

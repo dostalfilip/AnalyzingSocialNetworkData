@@ -18,8 +18,9 @@ import graph.particles.Vertex;
 
 @RunWith(Parameterized.class)
 public class VertexTest {
-	private Vertex vertex;
-	
+	private Vertex vertexA;
+	private Vertex vertexB;
+
 	private int positionA;
 	private int positionB;
 
@@ -37,67 +38,25 @@ public class VertexTest {
 	
 	@Before
     public void prepare() {
-    	vertex = new Vertex(positionA);
+		vertexA = new Vertex(positionA);
+		vertexB = new Vertex(positionB);
     }
-
-	@Test
-	public void testVertex_NonArgument() {
-		Vertex vertex = new Vertex();
-		assertNotNull(vertex);
-	}
 	
 	@Test
 	public void testVertex_FromArgument(){
-		Vertex vertex = new Vertex(positionA);
-		assertNotNull(vertex);
-	}
-	
-	@Test
-	public void testVertex_BothArgument(){
-		Vertex vertex = new Vertex(positionA, positionB);
-		assertTrue(vertex.getPosition() == positionA && vertex.isConected(positionB));
-	}
-	
+		assertNotNull(vertexA);
+	}	
 
 	@Test
 	public void testGetPosition() {
-		assertEquals(positionA, vertex.getPosition());
-	}
-
-	@Test
-	public void testSetPosition() {
-		vertex.setPosition(positionA+1);
-		assertEquals(positionA + 1, vertex.getPosition());
+		assertEquals(positionA, vertexA.getPosition());
 	}
 	
 
 	@Test
 	public void testIsPosition() {
-		assertTrue(vertex.isPosition(positionA));
+		assertTrue(vertexA.isPosition(positionA));
 	}
 
-	@Test
-	public void testIsConected() {
-		vertex.setConection(positionB);
-		assertTrue(vertex.isConected(positionB));
-	}
-
-	@Test
-	public void testGetConections() {
-		HashSet<Integer> temp = vertex.getConections();
-		vertex.setConection(positionB);
-		assertTrue(temp.contains(positionB));
-	}
-	
-	@Test
-	public void testSetConections(){
-		HashSet<Integer> testset = new HashSet<Integer>();
-		testset.add(positionB);
-		Vertex testVertex = new Vertex(positionA,positionB);
-		assertTrue(testset.size() ==  testVertex.getConections().size());
-		for(int i : testset){
-			assertTrue(testVertex.isConected(i));
-		}
-	}
 }
 
