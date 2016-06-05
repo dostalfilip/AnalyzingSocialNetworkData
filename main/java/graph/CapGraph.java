@@ -17,63 +17,110 @@ import graph.particles.Vertex;
  */
 public class CapGraph implements Graph {
 	
-	private ArrayList<Vertex> myArray;
-
+	private HashMap<Integer,Vertex> myMap;
 	
 	/**
 	 * Constructor
 	 */
 	public CapGraph() {
-		myArray = new ArrayList<Vertex>();
+		myMap = new HashMap<Integer,Vertex>();
 	}
-
+	
+	/**
+	 * Add Vertex to the Graph
+	 * @param add Vertex 
+	 */
+	public void addVertex(Vertex v){
+		myMap.put(v.getPosition(), v);
+	}
+	
+	/**
+	 * @param Integer, add new Vertex(param) to mymap
+	 */
 	public void addVertex(int num) {
-		myArray.add(new Vertex(num));
+		if(myMap.containsKey(num)){
+		}
+		else{		
+			Vertex tempVertex = new Vertex(num);
+			myMap.put(num, tempVertex);						
+		}
 	}
 
 	public void addEdge(int from, int to) {	
-		if(!myArray.contains(new Vertex(from)) || myArray.isEmpty()){
-			myArray.add(new Vertex(from));
+		Vertex tempVertex = myMap.get(from);
+		/*
+		 * If condition control if vertex with this central vertex is set properly
+		 */
+		if(!myMap.containsKey(from)){
+			tempVertex = new Vertex(from);
 		}
-		Vertex tempVertex = myArray.get(from);
 		tempVertex.setConection(to);
-		myArray.add(from, tempVertex);
+		myMap.put(from, tempVertex);
 	}
 	
 	public void removeVertex(int num_vertex){
-		//TODO
+		myMap.remove(num_vertex);
 	}
 	
 	public void removeEdge(int num_vertex,int num_edge){
-		//TODO
+		Vertex tempVertex = myMap.get(num_vertex);
+		HashSet<Integer> tempSet = tempVertex.getConections();
+		tempSet.remove(num_edge);
+		tempVertex.setConections(tempSet);
+		myMap.put(num_vertex, tempVertex);
 	}
 	
 
 	public CapGraph getEgonet(int center) {
 		CapGraph output = new CapGraph();
-
-		//TODO
-		
+		for(int n : myMap.get(center).getConections()){
+			output.addEdge(center, n);
+		}
 		return output;
 	}
 
 	public List<Graph> getSCCs() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Graph> tempMap = new ArrayList<Graph>();
+		//TODO THIS NEED TO IMPLEMENT WHOLE NEW ALGORITHM WITH RESERSE MATIC
+		return tempMap;	
+	}
+	
+	/**
+	 * Export of Vertex
+	 * @param integer of center position
+	 * @return Vertex of position num
+	 */
+	public Vertex exportVertex(int num){
+		Vertex output = new Vertex(); 
+		output = myMap.get(num);
+		return output;
 	}
 
 
 	public HashMap<Integer, HashSet<Integer>> exportGraph(){
 		HashMap<Integer, HashSet<Integer>> myGraph = new HashMap<Integer, HashSet<Integer>>();
-		for(Vertex v : myArray){
-			HashSet<Integer> tempSet = v.getConections();
-			myGraph.put(v.getPosition(), tempSet);
-		}
+		for(int i : myMap.keySet()){
+			Vertex tempVertex = myMap.get(i);			
+			myGraph.put(i, tempVertex.getConections());
+			}
+		
 		
 		return myGraph;
 	}
 	
 	public boolean isEmpty(){
-		return myArray.isEmpty();
+		return myMap.isEmpty();
+	}
+	
+	/**
+	 * return all Vertex from array
+	 */
+	@Override
+	public String toString(){
+		String output = "Num of element: " + Integer.toString(myMap.size()) + "\n";
+		for(int n : myMap.keySet()){
+			output += myMap.get(n).toString() + "\n";
+		}
+		return output;
 	}
 }

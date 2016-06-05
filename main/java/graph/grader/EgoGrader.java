@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import util.GraphLoader;
 import graph.CapGraph;
 import graph.Graph;
+import util.GraphLoader;
 
 public class EgoGrader extends Grader {
     private static final int TESTS = 10;
@@ -57,7 +57,7 @@ public class EgoGrader extends Grader {
                 feedback += appendFeedback(i + 1, "Starting from node " + i);
                 // Run user's implementation and make the output readable
                 HashMap<Integer, HashSet<Integer>> res = graph.getEgonet(i).exportGraph();
-                BufferedReader br = new BufferedReader(new FileReader("data/ego_answers/ego_" + i + ".txt"));
+                BufferedReader br = new BufferedReader(new FileReader("./src/test/resources/ego_answers/ego_" + i + ".txt"));
                 String next;
                 boolean failed = false;
                 // Scan though the file
