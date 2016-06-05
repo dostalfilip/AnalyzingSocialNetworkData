@@ -1,6 +1,8 @@
-package junit.vertex;
+package junit.particles;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,12 +83,21 @@ public class VertexTest {
 	}
 
 	@Test
-	public void testgetConections() {
+	public void testGetConections() {
 		HashSet<Integer> temp = vertex.getConections();
 		vertex.setConection(positionB);
 		assertTrue(temp.contains(positionB));
 	}
 	
-	
+	@Test
+	public void testSetConections(){
+		HashSet<Integer> testset = new HashSet<Integer>();
+		testset.add(positionB);
+		Vertex testVertex = new Vertex(positionA,positionB);
+		assertTrue(testset.size() ==  testVertex.getConections().size());
+		for(int i : testset){
+			assertTrue(testVertex.isConected(i));
+		}
+	}
 }
 

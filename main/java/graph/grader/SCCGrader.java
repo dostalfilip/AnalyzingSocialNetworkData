@@ -9,17 +9,18 @@ package graph.grader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import util.GraphLoader;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.TreeSet;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
 import graph.CapGraph;
 import graph.Graph;
+import util.GraphLoader;
 
 public class SCCGrader extends Grader {
     public int totalTests;
