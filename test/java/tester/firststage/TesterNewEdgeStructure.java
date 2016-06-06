@@ -1,4 +1,4 @@
-package tester;
+package tester.firststage;
 
 import java.util.HashMap;
 import java.util.HashSet;

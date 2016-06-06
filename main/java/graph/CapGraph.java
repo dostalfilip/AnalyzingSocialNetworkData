@@ -35,14 +35,76 @@ public class CapGraph implements Graph {
 	public void addEdge(int from, int to) {	
 		edgeSet.add(new Edge(from ,to));
 	}
+	
+	
+	public boolean containsVertex(Vertex numHash){
+		if(vertexSet.contains(numHash)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean containsEdge(Edge numHash){
+		if(edgeSet.contains(numHash)){
+			return true;
+		}
+		return false;
+	}
 
+	/**
+	 * This is crucial algorithm whitch creates Egonet´s CapGraph
+	 * @param Integer represent center of Egonet
+	 */
 	public CapGraph getEgonet(int center) {
 		CapGraph output = new CapGraph();
+		if(!containsVertex(new Vertex(center))){
+			return output;
+		}
+		HashMap<Integer, HashSet<Integer>> tempHash = exportGraph();
 
-						
+		//ArrayList<Vertex> tempArray = new ArrayList<Vertex>();
+		//tempArray.add(new Vertex(center));
+		output.addVertex(center);
+		for(int iVertex : tempHash.get(center)){
+			output.addEdge(center, iVertex);
+			output.addVertex(iVertex);
+			//tempArray.add(new Vertex(iVertex));
+		}
+		//weeerd part of code 
+		//TODO First attempt
+/*			for(int iVertex = 0 ; iVertex < tempArray.size() ; iVertex++){
+			int position = iVertex +1 ;
+			int pointA = tempArray.get(iVertex).getPosition();
+			while(position < tempArray.size()){
+				
+				int pointB = tempArray.get(position).getPosition();
+				
+				if(edgeSet.contains(new Edge(pointA, pointB))){
+					output.addEdge(pointA,pointB);
+					if(pointA== 22 && pointB == 8332) System.out.println("true");
+				}
+				if(edgeSet.contains(new Edge(pointB, pointA))){
+					output.addEdge(pointB,pointA);
+				}
+				position++;
+			}
+		}*/
 		
-		
-		
+		//second attempt TROUBLE
+		//TODO
+		for(Vertex v : output.vertexSet){
+			HashSet<Integer> tempEdge = tempHash.get(v.getPosition());
+			for(int edge : tempEdge){
+				if(output.containsVertex(new Vertex(edge))){
+					output.addEdge(v.getPosition(), edge);
+				}
+			}
+		}
+			
+			
+			
+			
+			
 		return output;
 	}
 
@@ -57,16 +119,13 @@ public class CapGraph implements Graph {
 		HashMap<Integer, HashSet<Integer>> myGraph = new HashMap<Integer, HashSet<Integer>>();
 		for(Vertex i : vertexSet){
 			HashSet<Integer> temp = new HashSet<Integer>();
-			for(Edge e : edgeSet){
-				if(e.getPointA() == i.getPosition()){
-					temp.add(e.getPointB());
-				}
-			}
 			myGraph.put(i.getPosition(), temp);
 		}
-
-		
-		
+		for(Edge e : edgeSet){
+			HashSet<Integer> temp = myGraph.get(e.getPointA());
+			temp.add(e.getPointB());
+			myGraph.put(e.getPointA(), temp);
+		}
 		return myGraph;
 	}
 
