@@ -38,31 +38,7 @@ public class CapGraph implements Graph {
 
 	public CapGraph getEgonet(int center) {
 		CapGraph output = new CapGraph();
-		for(Vertex v : vertexSet){
-			if(v.getPosition() == center){
-				output.addVertex(center);
-				break;
-			}
-		}
-		if(output.vertexSet.isEmpty()) return output;
-		for(Edge e : edgeSet){
-			if(e.getPointA() == center){
-				output.addEdge(center, e.getPointB());
-				output.addVertex(e.getPointB());
-			}
-		}
-		for(Vertex outputVertexA : output.vertexSet){
-			for(Edge addEdge : edgeSet){
-				if(outputVertexA.getPosition() == addEdge.getPointA() && outputVertexA.getPosition() != center){
-					for(Vertex outputVertexB : output.vertexSet){
-						if(outputVertexB.getPosition() == addEdge.getPointB()){
-							output.addEdge(addEdge.getPointA(), addEdge.getPointB());								
-							
-						}
-					}
-				}
-			}
-		}	
+
 						
 		
 		

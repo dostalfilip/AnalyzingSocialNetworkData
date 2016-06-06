@@ -37,7 +37,17 @@ public class Vertex {
 		return false;
 	}
 	
+	@Override
+	public int hashCode()
+	{
+	    return position;
+	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+	    return (hashCode() == o.hashCode());
+	}
 	
 	@Override
 	public String toString(){

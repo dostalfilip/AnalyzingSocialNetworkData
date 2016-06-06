@@ -24,6 +24,21 @@ public class Edge {
 	}
 	
 	@Override
+	public int hashCode()
+	{
+		String temp = "";
+		temp += Integer.toString(getPointA());
+		temp += Integer.toString(getPointB());
+	    return Integer.parseInt(temp);
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+	    return (hashCode() == o.hashCode());
+	}
+	
+	@Override
 	public String toString(){
 		String output = "Bridge: (" + getPointA() + ")-" + "(" + getPointB() + ")";
 		return output;
