@@ -67,7 +67,9 @@ public class CapGraph implements Graph {
 		output.addVertex(center);
 		for(int iVertex : tempHash.get(center)){
 			output.addEdge(center, iVertex);
-			output.addVertex(iVertex);
+			output.addVertex(iVertex);				
+		
+			
 			//tempArray.add(new Vertex(iVertex));
 		}
 		//weeerd part of code 
@@ -93,18 +95,13 @@ public class CapGraph implements Graph {
 		//second attempt TROUBLE
 		//TODO
 		for(Vertex v : output.vertexSet){
-			HashSet<Integer> tempEdge = tempHash.get(v.getPosition());
-			for(int edge : tempEdge){
+			for(int edge : tempHash.get(v.getPosition())){
 				if(output.containsVertex(new Vertex(edge))){
 					output.addEdge(v.getPosition(), edge);
 				}
 			}
 		}
-			
-			
-			
-			
-			
+		
 		return output;
 	}
 

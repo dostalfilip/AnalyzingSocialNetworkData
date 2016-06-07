@@ -40,13 +40,17 @@ public class Vertex {
 	@Override
 	public int hashCode()
 	{
-	    return position;
+		int encode = 3;
+	    return position * encode;
 	}
 
 	@Override
 	public boolean equals(Object o)
 	{
-	    return (hashCode() == o.hashCode());
+	    if(hashCode() == (o.hashCode())) {
+	        return true;
+	    }
+	    else return false;
 	}
 	
 	@Override
