@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import graph.particles.Edge;
-import graph.particles.Vertex;
-
 /**
  * @author Filip Dostal
  */
@@ -28,27 +25,14 @@ public class CapGraph implements Graph {
 	/**
 	 * @param Integer, add new Vertex(param) to mymap
 	 */
-	public void addVertex(int num) {	
+	public void addVertex(int num) {
+		if(!vertexSet.contains(new Vertex(num)))
 		vertexSet.add(new Vertex(num));					
 	}
 
 	public void addEdge(int from, int to) {	
+		if(!edgeSet.contains(new Edge(from, to)))
 		edgeSet.add(new Edge(from ,to));
-	}
-	
-	
-	public boolean containsVertex(Vertex numHash){
-		if(vertexSet.contains(numHash)){
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean containsEdge(Edge numHash){
-		if(edgeSet.contains(numHash)){
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -56,52 +40,28 @@ public class CapGraph implements Graph {
 	 * @param Integer represent center of Egonet
 	 */
 	public CapGraph getEgonet(int center) {
+		HashMap<Integer, HashSet<Integer>> tempHash = exportGraph();	
 		CapGraph output = new CapGraph();
-		if(!containsVertex(new Vertex(center))){
+				
+		if(!vertexSet.contains((new Vertex(center)))){
 			return output;
 		}
-		HashMap<Integer, HashSet<Integer>> tempHash = exportGraph();
+		else{
+			output.addVertex(center);
+		}
 
-		//ArrayList<Vertex> tempArray = new ArrayList<Vertex>();
-		//tempArray.add(new Vertex(center));
-		output.addVertex(center);
 		for(int iVertex : tempHash.get(center)){
 			output.addEdge(center, iVertex);
-			output.addVertex(iVertex);				
-		
-			
-			//tempArray.add(new Vertex(iVertex));
+			output.addVertex(iVertex);			
 		}
-		//weeerd part of code 
-		//TODO First attempt
-/*			for(int iVertex = 0 ; iVertex < tempArray.size() ; iVertex++){
-			int position = iVertex +1 ;
-			int pointA = tempArray.get(iVertex).getPosition();
-			while(position < tempArray.size()){
-				
-				int pointB = tempArray.get(position).getPosition();
-				
-				if(edgeSet.contains(new Edge(pointA, pointB))){
-					output.addEdge(pointA,pointB);
-					if(pointA== 22 && pointB == 8332) System.out.println("true");
-				}
-				if(edgeSet.contains(new Edge(pointB, pointA))){
-					output.addEdge(pointB,pointA);
-				}
-				position++;
-			}
-		}*/
-		
-		//second attempt TROUBLE
-		//TODO
+
 		for(Vertex v : output.vertexSet){
 			for(int edge : tempHash.get(v.getPosition())){
-				if(output.containsVertex(new Vertex(edge))){
+				if(output.vertexSet.contains((new Vertex(edge)))){
 					output.addEdge(v.getPosition(), edge);
 				}
 			}
-		}
-		
+		}			
 		return output;
 	}
 

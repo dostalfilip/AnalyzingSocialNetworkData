@@ -1,4 +1,4 @@
-package graph.particles;
+package graph;
 
 /**
  * 
@@ -9,7 +9,7 @@ package graph.particles;
 public class Vertex {
 	
 	private int position;
-
+	
 	/**
 	 * Constructor of the Vertex
 	 * @param Integer of position
@@ -40,10 +40,10 @@ public class Vertex {
 	@Override
 	public int hashCode()
 	{
-		int encode = 3;
+		int encode = 2;
 	    return position * encode;
 	}
-
+	
 	@Override
 	public boolean equals(Object o)
 	{

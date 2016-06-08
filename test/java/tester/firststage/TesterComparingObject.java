@@ -1,8 +1,8 @@
 package tester.firststage;
 
 import graph.CapGraph;
-import graph.particles.Edge;
-import graph.particles.Vertex;
+import graph.Edge;
+import graph.Vertex;
 
 public class TesterComparingObject {
 
@@ -19,7 +19,7 @@ public class TesterComparingObject {
 		System.out.println(eA.equals(eB));
 		System.out.println(eA.hashCode() == eB.hashCode());
 		*/
-		
+/*		
 		CapGraph cA = new CapGraph();
 		CapGraph cB = new CapGraph();
 		cA.addVertex(1);
@@ -27,7 +27,7 @@ public class TesterComparingObject {
 		cB.addVertex(1);
 		cB.addEdge(1, 2);
 		System.out.println(cA.containsEdge(new Edge(1,2)));
-		System.out.println(cB.containsVertex(new Vertex(1)));
+		System.out.println(cB.containsVertex(new Vertex(1)));*/
 	}
 
 }

@@ -1,6 +1,6 @@
 package tester.firststage;
 
-import graph.particles.Edge;
+import graph.Edge;
 
 public class TesterEdgeVertex {
 

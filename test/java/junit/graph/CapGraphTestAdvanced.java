@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import graph.CapGraph;
-import graph.particles.Vertex;
+import graph.Vertex;
 
 
 
