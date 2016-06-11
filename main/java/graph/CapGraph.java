@@ -1,7 +1,9 @@
 package graph;
 
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -65,12 +67,68 @@ public class CapGraph implements Graph {
 		return output;
 	}
 
+	//TODO
 	public List<Graph> getSCCs() {
-		ArrayList<Graph> tempMap = new ArrayList<Graph>();
-		//TODO THIS NEED TO IMPLEMENT WHOLE NEW ALGORITHM WITH RESERSE MATIC
-		return tempMap;	
+		ArrayList<Graph> outputListGraph = new ArrayList<Graph>();
+		HashMap<Integer, HashSet<Integer>> graphMap = exportGraph();
+		HashSet<Vertex> visited = new HashSet<Vertex>();
+		Deque<Vertex> finishStack = new ArrayDeque<Vertex>();
+		for(Vertex v : vertexSet){
+			if(!visited.contains(v)){
+
+				visitDFS(this, v, visited,
+						finishStack,graphMap);
+			}
+		}
+		visited.clear();
+		CapGraph temp = getTranspositionGraph(this);
+		Vertex v2 = finishStack.pop();
+		while(v2 != null){
+			
+			if(!visited.contains(v2)){
+				visitDFS(this, v2, visited,
+						finishStack,graphMap);
+			}
+			
+			
+			
+			
+		}
+		return outputListGraph;	
+	}
+	//TODO
+	private Deque<Vertex> dFS(CapGraph outputListGraph, Vertex v,
+			HashSet<Vertex> visited, Deque<Vertex> finishStack,
+			HashMap<Integer, HashSet<Integer>> graphMap){
+		
+		return null;
+	}
+	
+	//TODO
+	private Deque<Vertex> visitDFS(CapGraph outputListGraph, Vertex v,
+			HashSet<Vertex> visited, Deque<Vertex> finishStack,
+			HashMap<Integer, HashSet<Integer>> graphMap){
+		visited.add(v);
+		for(int n : graphMap.get(v.getPosition())){
+			if(!visited.contains(new Vertex(n))){
+				visitDFS(outputListGraph, new Vertex(n), visited,
+						finishStack,graphMap); 
+			}
+			finishStack.add(v);
+		}
+		return finishStack;
 	}
 
+	private CapGraph getTranspositionGraph(CapGraph g){
+		CapGraph outputGraph = new CapGraph();
+		for(Vertex v : vertexSet){
+			outputGraph.addVertex(v.getPosition());
+		}
+		for(Edge e : edgeSet){
+			outputGraph.addEdge(e.getPointB(), e.getPointA());
+		}
+		return outputGraph;
+	}
 
 	public HashMap<Integer, HashSet<Integer>> exportGraph(){
 		HashMap<Integer, HashSet<Integer>> myGraph = new HashMap<Integer, HashSet<Integer>>();

@@ -26,7 +26,6 @@ public class Edge {
 		@Override
 	public int hashCode()
 	{
-		int encode = 1;
 		String temp = "";
 		temp += Integer.toString(getPointA());
 		temp += "021845"; // gering more random hashcode output
