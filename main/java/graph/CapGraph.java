@@ -7,6 +7,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author Filip Dostal
@@ -67,57 +68,116 @@ public class CapGraph implements Graph {
 		return output;
 	}
 
-	//TODO
 	public List<Graph> getSCCs() {
+		/**
+		 * output init
+		 */
 		ArrayList<Graph> outputListGraph = new ArrayList<Graph>();
-		HashMap<Integer, HashSet<Integer>> graphMap = exportGraph();
+		final HashMap<Integer, HashSet<Integer>> exportGraph = exportGraph();
+		/**
+		 * 1
+		 */
+		HashSet<Vertex> visited = new HashSet<Vertex>();
+		Deque<Vertex> finish = new ArrayDeque<Vertex>();
+		
+		for(Integer vertexPosition : exportGraph.keySet()){
+			Vertex currVertex = new Vertex(vertexPosition);
+			if(!visited.contains(currVertex)){
+				finish = dfsVisit(currVertex,visited , finish);
+			}
+		}
+		
+		/**
+		 * 2
+		 */
+		
+		CapGraph reverseGraph = getTranspositionGraph(this);
+		/**
+		 * 3
+		 */
+		System.out.println("Celkovy pocet vertexu: " + exportGraph.size());
+		System.out.println("Visited size: " + visited.size());
+		System.out.println("Finish size: " + finish.size());
+		System.out.println(finish.size() == visited.size());
+		/**
+		 * return
+		 */
+		visited.clear();
+		while(!finish.isEmpty()){
+			CapGraph currNew = new CapGraph();
+			Vertex currVertex = finish.poll();				
+			if(!visited.contains(currVertex)){		
+				HashSet<Integer>  output = new HashSet<Integer>();
+				output = dfsVisitreverse(reverseGraph, currVertex, output);
+				for(int i : output){
+					visited.add(new Vertex (i));
+					currNew.addVertex(i);
+				}
+				if(currNew.vertexSet.size()>0){
+					outputListGraph.add(currNew);
+				}
+			}												
+		}
+		
+		return outputListGraph;	
+	}
+	
+	private Deque<Vertex> dfsVisit(Vertex v, HashSet<Vertex> visited, Deque<Vertex> finishStack){
+		visited.add(v);
+		
+		for(int vertexPosition : exportGraph().get(v.getPosition())){
+			Vertex currVertex = new Vertex(vertexPosition);
+		
+			if(!visited.contains(currVertex)){
+				dfsVisit(currVertex, visited, finishStack);
+			}
+
+			finishStack.add(currVertex);								
+			
+			System.out.println(currVertex);
+		}
+		return finishStack;
+	}
+ 
+	private HashSet<Integer> dfsVisitreverse(CapGraph currGraph, Vertex v, HashSet<Integer> output) {
+		for(int n : currGraph.exportGraph().get(v.getPosition())){
+			if(!output.contains(n)){
+				output.add(n);
+				dfsVisitreverse(currGraph, new Vertex(n), output); 				
+			}
+			
+		}
+		return output;
+	}
+	
+	/*		
+	private Deque<Vertex> dfsreverse(CapGraph outputListGraph, Deque<Vertex> infinishStack){
+		HashSet<Vertex> visited = new HashSet<Vertex>();
+		Deque<Vertex> finishStack = new ArrayDeque<Vertex>();
+		while(!infinishStack.isEmpty()){
+			Vertex v = infinishStack.pop();
+			if(!visited.contains(v)){
+				dfsVisitreverse(outputListGraph, v, visited, finishStack);
+			}
+		}
+		return finishStack;
+	}
+	
+	
+	private Deque<Vertex> dfs(CapGraph outputListGraph){
 		HashSet<Vertex> visited = new HashSet<Vertex>();
 		Deque<Vertex> finishStack = new ArrayDeque<Vertex>();
 		for(Vertex v : vertexSet){
 			if(!visited.contains(v)){
-
-				visitDFS(this, v, visited,
-						finishStack,graphMap);
+				dfsVisit(outputListGraph, v, visited, finishStack);
 			}
-		}
-		visited.clear();
-		CapGraph temp = getTranspositionGraph(this);
-		Vertex v2 = finishStack.pop();
-		while(v2 != null){
-			
-			if(!visited.contains(v2)){
-				visitDFS(this, v2, visited,
-						finishStack,graphMap);
-			}
-			
-			
-			
-			
-		}
-		return outputListGraph;	
-	}
-	//TODO
-	private Deque<Vertex> dFS(CapGraph outputListGraph, Vertex v,
-			HashSet<Vertex> visited, Deque<Vertex> finishStack,
-			HashMap<Integer, HashSet<Integer>> graphMap){
-		
-		return null;
-	}
-	
-	//TODO
-	private Deque<Vertex> visitDFS(CapGraph outputListGraph, Vertex v,
-			HashSet<Vertex> visited, Deque<Vertex> finishStack,
-			HashMap<Integer, HashSet<Integer>> graphMap){
-		visited.add(v);
-		for(int n : graphMap.get(v.getPosition())){
-			if(!visited.contains(new Vertex(n))){
-				visitDFS(outputListGraph, new Vertex(n), visited,
-						finishStack,graphMap); 
-			}
-			finishStack.add(v);
 		}
 		return finishStack;
 	}
+	
+	
+
+	}*/
 
 	private CapGraph getTranspositionGraph(CapGraph g){
 		CapGraph outputGraph = new CapGraph();
