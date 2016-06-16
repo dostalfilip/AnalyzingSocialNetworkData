@@ -1,6 +1,6 @@
 package junit.graph;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import graph.CapGraph;
+import graph.Edge;
 import graph.Vertex;
 
 
@@ -21,6 +22,7 @@ public class CapGraphTestAdvanced {
 	@Before
 	public void before(){
 		test = new CapGraph();
+		test.addVertex(1);
 		test.addEdge(1, 2);
 		test.addEdge(2, 4);
 		test.addEdge(1, 10);
@@ -28,33 +30,57 @@ public class CapGraphTestAdvanced {
 	
 	@Test
 	public void testAddVertex_ParamVertex(){
-		test.addVertex(99);
-		test.addEdge(99, 50);
-		myGraph = test.exportGraph();
-		assertTrue(myGraph.get(99).contains(50));
-	}
-	
-	
-	
-	@Test
-	public void testGetEgonet_NULL(){
-		assertTrue(test.getEgonet(1) != null);
+		CapGraph test2 = new CapGraph();
+		test2.addVertex(1);
+		assertTrue(test2.exportGraph().containsKey(1));
 	}
 	
 	@Test
-	public void testGetEgonet_Positive() {
-		//TODO
+	public void testgetTranspositionGraph(){
+		
+		test = new CapGraph();
+		test.addVertex(1);
+		test.addEdge(1, 2);
+		test.addEdge(2, 4);
+		test.addEdge(1, 10);
+		
+		assertTrue(test.getVertexSet().contains(new Vertex (1)));
+		assertTrue(test.getEdgeSet().contains(new Edge (1,2)));
+		assertTrue(test.getEdgeSet().contains(new Edge (2,4)));
+		
+		
+		
+		CapGraph transposeGraph = test.getTranspositionGraph(test);
+		assertTrue(transposeGraph.getVertexSet().contains(new Vertex (1)));
+		assertTrue(transposeGraph.getEdgeSet().contains(new Edge (2,1)));
+		assertTrue(transposeGraph.getEdgeSet().contains(new Edge (4,2)));
 	}
 	
 	@Test
-	public void testGetEgonet_Negative() {
-		//TODO
+	public void testgetTranspositionGraph2(){
+		
+		test = new CapGraph();
+		test.addVertex(1);
+		test.addVertex(3);
+		test.addVertex(6);
+		test.addEdge(1, 2);
+		test.addEdge(2, 4);
+		test.addEdge(1, 10);
+		test.addEdge(3, 6);
+		CapGraph transposeGraph = test.getTranspositionGraph(test);
+		assertFalse(test.toString().equals(transposeGraph.toString()));
+		
+		transposeGraph = transposeGraph.getTranspositionGraph(transposeGraph);
+		
+		assertTrue(test.toString().equals(transposeGraph.toString()));
 	}
 	
-
 	@Test
 	public void testGetSCCs() {
+	
 		//TODO
+		
+		
 	}
 
 }

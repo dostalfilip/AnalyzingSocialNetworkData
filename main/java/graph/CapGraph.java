@@ -95,7 +95,7 @@ public class CapGraph implements Graph {
 		/**
 		 * 3
 		 */
-		System.out.println("Celkovy pocet vertexu: " + exportGraph.size());
+		/*System.out.println("Celkovy pocet vertexu: " + exportGraph.size());
 		System.out.println("Visited size: " + visited.size());
 		System.out.println("Finish size: " + finish.size());
 		System.out.println(finish.size() == visited.size());
@@ -106,12 +106,16 @@ public class CapGraph implements Graph {
 		while(!finish.isEmpty()){
 			CapGraph currNew = new CapGraph();
 			Vertex currVertex = finish.poll();				
-			if(!visited.contains(currVertex)){		
-				HashSet<Integer>  output = new HashSet<Integer>();
+			if(!visited.contains(currVertex)){
+				
+				HashSet<Integer> output = new HashSet<Integer>();
 				output = dfsVisitreverse(reverseGraph, currVertex, output);
+				
 				for(int i : output){
-					visited.add(new Vertex (i));
-					currNew.addVertex(i);
+					if(!visited.contains(new Vertex(i))){	
+						visited.add(new Vertex (i));
+						currNew.addVertex(i);						
+					}
 				}
 				if(currNew.vertexSet.size()>0){
 					outputListGraph.add(currNew);
@@ -134,16 +138,24 @@ public class CapGraph implements Graph {
 
 			finishStack.add(currVertex);								
 			
-			System.out.println(currVertex);
+			//System.out.println(currVertex);
 		}
 		return finishStack;
 	}
  
-	private HashSet<Integer> dfsVisitreverse(CapGraph currGraph, Vertex v, HashSet<Integer> output) {
-		for(int n : currGraph.exportGraph().get(v.getPosition())){
+	private HashSet<Integer> dfsVisitreverse(CapGraph currGraph, Vertex v , HashSet<Integer> output) {
+		
+		
+		for(int n : exportGraph(currGraph).get(v.getPosition())){
+			
 			if(!output.contains(n)){
 				output.add(n);
-				dfsVisitreverse(currGraph, new Vertex(n), output); 				
+
+				for (int i : dfsVisitreverse(currGraph, new Vertex(n), output)){
+					if(!output.contains(i)){
+						output.add(i);
+					}
+				}
 			}
 			
 		}
@@ -179,13 +191,15 @@ public class CapGraph implements Graph {
 
 	}*/
 
-	private CapGraph getTranspositionGraph(CapGraph g){
+	public CapGraph getTranspositionGraph(CapGraph g){
 		CapGraph outputGraph = new CapGraph();
-		for(Vertex v : vertexSet){
+		for(Vertex v : g.vertexSet){
 			outputGraph.addVertex(v.getPosition());
+			//System.out.println(v);
 		}
-		for(Edge e : edgeSet){
+		for(Edge e : g.edgeSet){
 			outputGraph.addEdge(e.getPointB(), e.getPointA());
+			//System.out.println(e);
 		}
 		return outputGraph;
 	}
@@ -193,10 +207,16 @@ public class CapGraph implements Graph {
 	public HashMap<Integer, HashSet<Integer>> exportGraph(){
 		HashMap<Integer, HashSet<Integer>> myGraph = new HashMap<Integer, HashSet<Integer>>();
 		for(Vertex i : vertexSet){
+			/**
+			 * init hashSet
+			 */
 			HashSet<Integer> temp = new HashSet<Integer>();
 			myGraph.put(i.getPosition(), temp);
 		}
 		for(Edge e : edgeSet){
+			/**
+			 * add items to HashSet
+			 */
 			HashSet<Integer> temp = myGraph.get(e.getPointA());
 			temp.add(e.getPointB());
 			myGraph.put(e.getPointA(), temp);
@@ -204,6 +224,20 @@ public class CapGraph implements Graph {
 		return myGraph;
 	}
 
+	public HashMap<Integer, HashSet<Integer>> exportGraph(CapGraph currGraph){
+		HashMap<Integer, HashSet<Integer>> myGraph = new HashMap<Integer, HashSet<Integer>>();
+		for(Vertex i : currGraph.vertexSet){
+			HashSet<Integer> temp = new HashSet<Integer>();
+			myGraph.put(i.getPosition(), temp);
+		}
+		for(Edge e : currGraph.edgeSet){
+			HashSet<Integer> temp = myGraph.get(e.getPointA());
+			temp.add(e.getPointB());
+			myGraph.put(e.getPointA(), temp);
+		}
+		return myGraph;
+	}
+	
 	@Override
 	public String toString(){
 		String output = "All Vertex: " + vertexSet.size() + "\n";
@@ -218,4 +252,13 @@ public class CapGraph implements Graph {
 		
 		return output;
 	}
+	
+	public HashSet<Vertex> getVertexSet(){
+		return vertexSet;
+	}
+	
+	public HashSet<Edge> getEdgeSet(){
+		return edgeSet;
+	}
+	
 }
