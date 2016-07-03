@@ -13,13 +13,13 @@ public class CapGraphCSSTester {
 	
 	public static void main(String[] args) {
 		CapGraph test = new CapGraph();
-		GraphLoader.loadGraph(test, "./src/test/resources/scc/test_6.txt");
+		GraphLoader.loadGraph(test, "./src/test/resources/scc/test_4.txt");
 		System.out.println("Graph loaded!");
 		
 		//System.out.println(test);
 	
 		System.out.println("------------------------");
-		System.out.println(test);
+		//System.out.println(test);
 		System.out.println("------------------------");
 		System.out.println(test.getTranspositionGraph(test));
 		System.out.println("------------------------");
@@ -28,9 +28,9 @@ public class CapGraphCSSTester {
 		
 		
 		for(Graph cg : test.getSCCs()){
+			System.out.println("*********************************");
 			System.out.println(cg);
 		}
-		
 		
 		
 		

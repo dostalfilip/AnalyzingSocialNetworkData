@@ -7,6 +7,8 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -32,6 +34,7 @@ public class CapGraph implements Graph {
 		if(!vertexSet.contains(new Vertex(num)))
 		vertexSet.add(new Vertex(num));			
 	}
+
 
 	public void addEdge(int from, int to) {
 		if(!edgeSet.contains(new Edge(from, to)))
@@ -68,110 +71,38 @@ public class CapGraph implements Graph {
 		return output;
 	}
 
-	public List<Graph> getSCCs() {
-		/**
-		 * output init
-		 */
-		ArrayList<Graph> outputListGraph = new ArrayList<Graph>();
-		final HashMap<Integer, HashSet<Integer>> exportGraph = exportGraph();
-		
-		
-		/**
-		 * 1
-		 */
 	
-		
+
+	
+	public Deque<Vertex> dfs(Graph graph, HashSet<Vertex> vertices){
+		ArrayDeque<Vertex> finish = new ArrayDeque<Vertex>();
 		HashSet<Vertex> visited = new HashSet<Vertex>();
-		Deque<Vertex> finish = new ArrayDeque<Vertex>();
-		
-		
-		for(Integer vertexPosition : exportGraph.keySet()){
-			Vertex currVertex = new Vertex(vertexPosition);
-			if(!finish.contains(currVertex)){
-				finish = dfsVisit(currVertex,visited , finish);
+		for(Vertex curr : vertices){
+			if(!visited.contains(curr)){
+				dfsVisit(graph, curr, visited, finish);
 			}
 		}
- 
-		
-		
-		///2
-		///3
-		
-		
-		
-		visited.clear();
-		while(!finish.isEmpty()){
-			//System.out.println("vstupni kontrola" + finish.peek());
-			CapGraph currNew = new CapGraph();
-			Vertex currVertex = finish.poll();				
-			if(!visited.contains(currVertex)){
-				
-				HashSet<Integer> outputAllDuplexVertex = new HashSet<Integer>();
-				outputAllDuplexVertex = dfsVisitreverse(getTranspositionGraph(this), currVertex, outputAllDuplexVertex);
-				
-				System.out.println(outputAllDuplexVertex);
-				for(int i : outputAllDuplexVertex){
-					System.out.println("integer i pred" + i);
-					if(!visited.contains(new Vertex(i))){	
-						System.out.println("integer i po" + i);
-						currNew.addVertex(i);		
-						visited.add(new Vertex (i));
-					}
-					System.out.println("-------++++-------");
-				}
-		
-				if(currNew.vertexSet.size()>0){
-					outputListGraph.add(currNew);
-					//System.out.println(currVertex);
-				}
-			}												
-		}
-		
-		return outputListGraph;	
+		return finish;	
 	}
-	
-	private Deque<Vertex> dfsVisit(Vertex v, HashSet<Vertex> visited, Deque<Vertex> finishStack){
-		if(visited.contains(v)){
-			return finishStack;
-		}
+
+	public void dfsVisit(Graph graph, Vertex v, Set<Vertex> visited, ArrayDeque<Vertex> finish){
 		visited.add(v);
-		Vertex currVertex;
-		for(int vertexPosition : exportGraph().get(v.getPosition())){
-			currVertex = new Vertex(vertexPosition);
-		
-			if(!visited.contains(currVertex)){
-				//dfsVisit(currVertex, visited, finishStack);
-			//System.out.println("adding to finish" + currVertex);
-			//if(!finishStack.contains(currVertex)){
+		for(int i : graph.exportGraph().get(v.getPosition())){
+			if(!visited.contains(new Vertex(i))){
+				dfsVisit(graph, new Vertex(i), visited, finish);
 			}
-			
-			finishStack.add(currVertex);												
-			//}
-			
-			//System.out.println(currVertex);
 		}
-		return finishStack;
+		finish.add(v);			
 	}
- 
-	private HashSet<Integer> dfsVisitreverse(CapGraph currGraph, Vertex v , HashSet<Integer> output ) {
-		for(int n : exportGraph(currGraph).get(v.getPosition())){
-			if(!output.contains(n)){
-				output.add(n);
-				dfsVisitreverse(currGraph, new Vertex(n), output);
-				}
-		}
-		return output;
-	}
+
 
 	public CapGraph getTranspositionGraph(CapGraph g){
 		CapGraph outputGraph = new CapGraph();
 		for(Vertex v : g.vertexSet){
 			outputGraph.addVertex(v.getPosition());
-			//System.out.println(v);
 		}
 		for(Edge e : g.edgeSet){
 			outputGraph.addEdge(e.getPointB(), e.getPointA());
-			//System.out.println(e);
 		}
 		return outputGraph;
 	}
@@ -231,6 +162,11 @@ public class CapGraph implements Graph {
 	
 	public HashSet<Edge> getEdgeSet(){
 		return edgeSet;
+	}
+
+	public List<Graph> getSCCs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
