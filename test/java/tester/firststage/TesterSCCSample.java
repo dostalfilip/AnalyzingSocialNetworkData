@@ -55,15 +55,15 @@ public class TesterSCCSample {
 		}
 		
 		for(Edge e : testTranspose.getEdgeSet()){
-			System.out.println(e);
+			//System.out.println(e);
 		}
 		//dfs
 		System.out.println("");
 		Deque<Vertex> vysledek = test.dfs(test, test.getVertexSet());
 		Deque<Vertex> vysledek2 = test.dfs(test, test.getVertexSet());
-		while(!vysledek.isEmpty()){
+		/*while(!vysledek.isEmpty()){
 			System.out.println(vysledek.poll());
-		}
+		}*/
 		
 		//dfsreverse
 		HashSet<Vertex> visited = new HashSet<Vertex>();
@@ -77,8 +77,11 @@ public class TesterSCCSample {
 					System.out.println(finish.poll());
 				}	
 			}
-			System.out.println("peekLastNakonci"+ vysledek2.peekLast());
-			vysledek2.pollLast();
+			else{
+				//System.out.println("peekLastNakonci"+ vysledek2.peekLast());
+				vysledek2.pollLast();
+				
+			}
 		}
 	}
 }
