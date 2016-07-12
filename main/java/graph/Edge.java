@@ -1,4 +1,4 @@
-package graph.particles;
+package graph;
 
 /**
  * 
@@ -21,6 +21,25 @@ public class Edge {
 	
 	public int getPointB() {
 		return bridge[1];
+	}
+	
+		@Override
+	public int hashCode()
+	{
+		String temp = "";
+		temp += Integer.toString(getPointA());
+		temp += "021845"; // gering more random hashcode output
+		temp += Integer.toString(getPointB());
+		return temp.hashCode();
+	}
+		
+	@Override
+	public boolean equals(Object o)
+	{
+	    if(hashCode() == (o.hashCode())) {
+	        return true;
+	    }
+	    else return false;
 	}
 	
 	@Override

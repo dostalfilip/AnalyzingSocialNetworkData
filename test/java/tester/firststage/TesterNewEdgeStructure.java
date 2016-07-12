@@ -1,4 +1,4 @@
-package tester;
+package tester.firststage;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,15 +27,17 @@ public class TesterNewEdgeStructure {
 		System.out.println(test.toString());
 
 		
-		System.out.println("Test export");
+		System.out.print("Test export");
 		for(int i:testHash.keySet()){
 			System.out.print("\n("+ i + "):");
 			for(int n : testHash.get(i)){
 				System.out.print(" "+n);
 			}
 		}
-		
+		System.out.println("\n");
+		System.out.println(test.getEgonet(2).toString());
 
+		
 	}
 
 }

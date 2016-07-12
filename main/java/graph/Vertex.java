@@ -1,4 +1,4 @@
-package graph.particles;
+package graph;
 
 /**
  * 
@@ -9,7 +9,7 @@ package graph.particles;
 public class Vertex {
 	
 	private int position;
-
+	
 	/**
 	 * Constructor of the Vertex
 	 * @param Integer of position
@@ -37,7 +37,21 @@ public class Vertex {
 		return false;
 	}
 	
-
+	@Override
+	public int hashCode()
+	{
+		int encode = 2;
+	    return position * encode;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+	    if(hashCode() == (o.hashCode())) {
+	        return true;
+	    }
+	    else return false;
+	}
 	
 	@Override
 	public String toString(){
