@@ -49,7 +49,7 @@ public class CapGraphTestAdvanced {
 		assertTrue(test.getEdgeSet().contains(new Edge (2,4)));
 		
 		
-		
+
 		CapGraph transposeGraph = test.getTranspositionGraph(test);
 		assertTrue(transposeGraph.getVertexSet().contains(new Vertex (1)));
 		assertTrue(transposeGraph.getEdgeSet().contains(new Edge (2,1)));

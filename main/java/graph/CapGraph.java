@@ -74,10 +74,8 @@ public class CapGraph implements Graph {
 
 	public List<Graph> getSCCs(){
 		List<Graph> scc = new ArrayList<Graph>();
-
 				Deque<Vertex> vysledek2 = new ArrayDeque<Vertex>();
-				vysledek2 = dfs(this, getVertexSet());
-				
+				vysledek2 = dfs(this, getVertexSet());			
 				//dfsreverse
 				HashSet<Vertex> visited = new HashSet<Vertex>();
 				
@@ -85,16 +83,12 @@ public class CapGraph implements Graph {
 					CapGraph curr = new CapGraph();
 					ArrayDeque<Vertex> finish = new ArrayDeque<Vertex>();
 					if(!visited.contains(vysledek2.peekLast())){
-
 						dfsVisit(getTranspositionGraph(this),vysledek2.pollLast(),visited,finish);
-System.out.println("---------------");
 						while(!finish.isEmpty()){
 							visited.add(finish.peek());
-							System.out.println(finish.peek());
 							curr.addVertex(finish.poll().getPosition());
 							
 						}
-System.out.println("**************");
 						if(!curr.getVertexSet().isEmpty()){
 							scc.add(curr);							
 						}
@@ -102,11 +96,7 @@ System.out.println("**************");
 					else{
 						vysledek2.pollLast();	
 					}
-				}
-
-				
-				
-				
+				}		
 		return scc;
 	}
 
@@ -131,7 +121,6 @@ System.out.println("**************");
 		}
 		finish.add(v);			
 	}
-
 
 	public CapGraph getTranspositionGraph(CapGraph g){
 		CapGraph outputGraph = new CapGraph();
