@@ -7,13 +7,14 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
+
 import java.util.Set;
-import java.util.Stack;
+
 
 /**
  * @author Filip Dostal
  */
+
 public class CapGraph implements Graph {
 	
 	private HashSet<Vertex> vertexSet;
@@ -32,13 +33,13 @@ public class CapGraph implements Graph {
 	 */
 	public void addVertex(int num) {
 		if(!vertexSet.contains(new Vertex(num)))
-		vertexSet.add(new Vertex(num));			
+			vertexSet.add(new Vertex(num));			
 	}
 
 
 	public void addEdge(int from, int to) {
 		if(!edgeSet.contains(new Edge(from, to)))
-		edgeSet.add(new Edge(from ,to));
+			edgeSet.add(new Edge(from ,to));
 	}
 
 	/**
@@ -71,14 +72,50 @@ public class CapGraph implements Graph {
 		return output;
 	}
 
-	
+	public List<Graph> getSCCs(){
+		List<Graph> scc = new ArrayList<Graph>();
+
+				Deque<Vertex> vysledek2 = new ArrayDeque<Vertex>();
+				vysledek2 = dfs(this, getVertexSet());
+				
+				//dfsreverse
+				HashSet<Vertex> visited = new HashSet<Vertex>();
+				
+				while(!vysledek2.isEmpty()){
+					CapGraph curr = new CapGraph();
+					ArrayDeque<Vertex> finish = new ArrayDeque<Vertex>();
+					if(!visited.contains(vysledek2.peekLast())){
+
+						dfsVisit(getTranspositionGraph(this),vysledek2.pollLast(),visited,finish);
+System.out.println("---------------");
+						while(!finish.isEmpty()){
+							visited.add(finish.peek());
+							System.out.println(finish.peek());
+							curr.addVertex(finish.poll().getPosition());
+							
+						}
+System.out.println("**************");
+						if(!curr.getVertexSet().isEmpty()){
+							scc.add(curr);							
+						}
+					}
+					else{
+						vysledek2.pollLast();	
+					}
+				}
+
+				
+				
+				
+		return scc;
+	}
 
 	
 	public Deque<Vertex> dfs(Graph graph, HashSet<Vertex> vertices){
 		ArrayDeque<Vertex> finish = new ArrayDeque<Vertex>();
 		HashSet<Vertex> visited = new HashSet<Vertex>();
 		for(Vertex curr : vertices){
-			if(!visited.contains(curr)){
+			if(!visited.contains(curr) && curr!= null){
 				dfsVisit(graph, curr, visited, finish);
 			}
 		}
@@ -164,9 +201,6 @@ public class CapGraph implements Graph {
 		return edgeSet;
 	}
 
-	public List<Graph> getSCCs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 }
